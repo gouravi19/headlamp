@@ -26,7 +26,7 @@ import Service from '../../lib/k8s/service';
 import Empty from '../common/EmptyContent';
 import { ValueLabel } from '../common/Label';
 import Link from '../common/Link';
-import { DetailsGrid, MetadataDictGrid } from '../common/Resource';
+import { DetailsGrid, MetadataDictGrid, OwnedPodsSection } from '../common/Resource';
 import PortForward from '../common/Resource/PortForward';
 import { SectionBox } from '../common/SectionBox';
 import SimpleTable from '../common/SimpleTable';
@@ -88,6 +88,10 @@ export default function ServiceDetails(props: {
         }
 
         return [
+          {
+            id: 'headlamp.service-owned-pods',
+            section: <OwnedPodsSection resource={item} />,
+          },
           {
             id: 'headlamp.service-ports',
             section: (

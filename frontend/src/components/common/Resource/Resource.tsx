@@ -1711,7 +1711,13 @@ export function OwnedPodsSection(props: OwnedPodsSectionProps) {
     namespace = resource.metadata.namespace;
   }
   let labelSelector = '';
-  if (resource?.jsonData?.spec?.selector) {
+  if (resource.kind === 'Service') {
+    const serviceSelector = resource?.jsonData?.spec?.selector;
+    if (!serviceSelector || Object.keys(serviceSelector).length === 0) {
+      return null;
+    }
+    labelSelector = labelSelectorToQuery({ matchLabels: serviceSelector });
+  } else if (resource?.jsonData?.spec?.selector) {
     labelSelector = labelSelectorToQuery(resource?.jsonData?.spec?.selector);
   } else if (resource.kind === 'JobSet') {
     labelSelector = `jobset.sigs.k8s.io/jobset-name=${resource.metadata.name}`;
